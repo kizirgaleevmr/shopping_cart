@@ -156,20 +156,27 @@
             <h2>Add Product</h2>
             <form id="productForm">
               <label for="productName">Name*</label>
-              <input autocomplete="off" type="text" id="productName" name="name" required />
-
+              <input
+                autocomplete="off"
+                type="text"
+                id="productName"
+                name="name"
+                required
+                title="Минимум 3 символа и не должно содержать цифры"
+              />
+              <span data-name="name"></span>
               <label for="productCategory">Category* </label>
               <input autocomplete="off" type="text" id="productCategory" name="category" required />
-
+              <span data-name="category"></span>
               <label for="productRating">Rating*</label>
               <input autocomplete="off" type="text" id="productRating" name="rating" required />
-
+              <span data-name="rating"></span>
               <label for="productPrice">Price*</label>
               <input autocomplete="off" type="text" id="productPrice" name="price" required />
-
+              <span data-name="price"></span>
               <label for="productImgSrc">Image Source</label>
               <input autocomplete="off" type="url" id="productImgSrc" name="imgSrc" required />
-
+              <span data-name="imgSrc"></span>
               <button type="submit">Add Product</button>
             </form>
           </div>
