@@ -20,7 +20,7 @@ export async function getProducts() {
  */
 export async function createProduct(productData) {
   try {
-    fetch('http://localhost:5000/products', {
+    const response = fetch('http://localhost:5000/products', {
       method: 'POST', // Здесь так же могут быть GET, PUT, DELETE
       // Тело запроса в JSON-формате
       body: JSON.stringify(productData),
@@ -29,10 +29,7 @@ export async function createProduct(productData) {
         'Content-type': 'application/json; charset=UTF-8',
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-      })
+    return response
   } catch (error) {
     console.error(error)
   }

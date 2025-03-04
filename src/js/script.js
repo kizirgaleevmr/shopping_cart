@@ -33,11 +33,14 @@ function submitForm() {
     }
     // Функция создания нового товара
     createProduct(productData)
-
-    // Показ актуальных данных
-    getProducts().then((data) => {
-      // Формируем нужный html для карточек
-      generateTemplate(data)
-    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        // Показ актуальных данных
+        getProducts().then((data) => {
+          // Формируем нужный html для карточек
+          generateTemplate(data)
+        })
+      })
   })
 }
