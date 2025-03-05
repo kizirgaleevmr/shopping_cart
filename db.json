@@ -111,6 +111,30 @@
       "price": "5000",
       "imgSrc": "https://avatars.mds.yandex.net/i?id=624501f68cc58e18dee90baaf36aeced17d4f1f8-12144750-images-thumbs&n=13",
       "id": "ck2_w9V"
+    },
+    {
+      "name": "Новый товар",
+      "category": "картина",
+      "rating": "10",
+      "price": "1500",
+      "imgSrc": "https://avatars.mds.yandex.net/i?id=d7b21c046b119d0b06b2554e1c6804869d90a0a6-10555283-images-thumbs&ref=rim&n=33&w=223&h=200",
+      "id": "xhwFsfr"
+    },
+    {
+      "name": "Новый товар",
+      "category": "картина",
+      "rating": "10",
+      "price": "1500",
+      "imgSrc": "https://avatars.mds.yandex.net/i?id=d7b21c046b119d0b06b2554e1c6804869d90a0a6-10555283-images-thumbs&ref=rim&n=33&w=223&h=200",
+      "id": "YI5yRj8"
+    },
+    {
+      "name": "sdfg",
+      "category": "sdfg",
+      "rating": "dfgdg",
+      "price": "500",
+      "imgSrc": "https://avatars.mds.yandex.net/i?id=d7b21c046b119d0b06b2554e1c6804869d90a0a6-10555283-images-thumbs&ref=rim&n=33&w=223&h=200",
+      "id": "XvC_OLL"
     }
   ]
 }

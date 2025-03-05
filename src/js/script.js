@@ -125,14 +125,14 @@ function addLocal(local, data) {
 }
 
 // Достаем данные из localstorage
-function dataLocal() {
+export function dataLocal() {
   return JSON.parse(localStorage.getItem('product'))
 }
 
 /**
  * Функция Выводит общую стоимость товара
  */
-function showPriceBasket() {
+export function showPriceBasket() {
   // данные из хранилища
   const data = dataLocal()
   if (data) {
@@ -144,7 +144,7 @@ function showPriceBasket() {
 }
 
 /**
- * Функция выводит  выводит общее количество товаров в корзине
+ * Функция выводит  общее количество товаров в корзине
  */
 function showTotalBasketProduct() {
   // данные из хранилища
@@ -156,3 +156,15 @@ function showTotalBasketProduct() {
     SELECTORS.basketInfo.innerHTML = `${totalInfo}`
   }
 }
+
+// Открываем модальное окно
+const btnBasket = document?.querySelector('#open-basket')
+btnBasket.addEventListener('click', () => {
+  window['modal-basket'].showModal()
+})
+
+// Закрываем модалное окно
+const closeBasket = document?.querySelector('.close-button')
+closeBasket.addEventListener('click', () => {
+  window['modal-basket'].close()
+})

@@ -331,3 +331,21 @@ main {
 .p-48 {
   padding: 48px 0;
 }
+
+.basket-container__list {
+  .red {
+    color: red;
+  }
+  .main-card {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .card-info {
+    margin-right: 50px;
+  }
+  img {
+    width: 240px;
+    margin-right: 60px;
+  }
+}

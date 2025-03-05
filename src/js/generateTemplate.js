@@ -1,4 +1,5 @@
 import { SELECTORS } from './selectors.js'
+import { dataLocal, showPriceBasket } from './script.js'
 // Функция создает html на основе данных
 export function generateTemplate(data) {
   let html = ''
@@ -55,16 +56,19 @@ export function generateBasket(data) {
   if (data && Array.isArray(data)) {
     data.forEach((product) => {
       html += `
-              <div class="main-card flex" data-id="${product?.id}">
+              <div class="main-card" data-id="${product?.id}">
                 <div class="card-image">
                     <img src="${product?.imgSrc}" alt="image">
                 </div>
+                <div class="card-info">
                 <h3 class="card-name">${product?.name}</h3>
     
                 <p class="card-category">${product?.category}</p>
     
                 <p class="card-price">${product?.price}</p>
-                <p class="card-count">Count ${product?.count}</p>
+                <p class="card-count">Count ${product?.count}</p></div>
+                <div>
+                <button type="button" class="delet-product red">X</button></div>
               </div>
             `
     })
@@ -73,4 +77,27 @@ export function generateBasket(data) {
   SELECTORS.basket.innerHTML = ''
 
   SELECTORS?.basket?.insertAdjacentHTML('beforeend', html)
+
+  // Удаление товара из корзины
+  Array.from(document?.querySelectorAll('.delet-product')).forEach((elem) => {
+    elem.addEventListener('click', (event) => {
+      // получем все товары из localStorage
+      const productLocal = JSON.parse(localStorage.getItem('product'))
+      // фильтруем товар для удаления
+      const newProduct = productLocal.filter((obj) => {
+        if (obj.id !== event.target.parentNode.parentNode.dataset.id) {
+          return true
+        }
+      })
+      // Записываем отфильтрованный товар после удаления в localstorage
+      localStorage.setItem('product', JSON.stringify(newProduct))
+
+      // обновляем корзину
+      // достаем данные из localstorage
+      const data = dataLocal()
+      generateBasket(data)
+      // Обновляем цену
+      showPriceBasket(data)
+    })
+  })
 }
