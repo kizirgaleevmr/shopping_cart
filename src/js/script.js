@@ -7,25 +7,36 @@ init()
 function init() {
   // подгрузка данных при загрузке страницы
   window.addEventListener('DOMContentLoaded', () => {
+    // Показываем товары в корзине
+    showPriceBasket()
+    showTotalBasketProduct()
     getProducts().then((data) => {
       // Формируем нужный html для карточек
       generateTemplate(data)
-
-      // Получаем кнопки карточек
-      const btn = document?.querySelectorAll('.btn')
-
-      Array.from(btn).forEach((button) => {
-        button.addEventListener('click', (event) => {
-          const idCart = event?.target?.parentNode?.dataset?.id
-
-          addBasket(idCart)
-        })
-      })
+      // Добавляем товар в корзину
+      addCartBasket()
     })
     submitForm()
+    // Получаем данные из хранилища и передаем в корзину
+    const loadLocalStoreg = dataLocal()
+    // Формируем корзину
+    generateBasket(loadLocalStoreg)
   })
 }
 
+// Функция добавления товара в корзину
+function addCartBasket() {
+  // Получаем кнопки карточек
+  const btn = document?.querySelectorAll('.btn')
+
+  Array.from(btn).forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const idCart = event?.target?.parentNode?.dataset?.id
+
+      addBasket(idCart)
+    })
+  })
+}
 // Обработчик формы
 function submitForm() {
   SELECTORS?.form?.addEventListener('submit', (event) => {
@@ -50,6 +61,9 @@ function submitForm() {
         getProducts().then((data) => {
           // Формируем нужный html для карточек
           generateTemplate(data)
+          // Добавление товара в корзину
+          addCartBasket()
+          init()
         })
       })
   })
@@ -58,7 +72,7 @@ function submitForm() {
 // Добавление товара в localStorage
 /**
  *
- * @param {object} cart - отдельна взятая карточка
+ * @param {object} cart - отдельна взятая карточка для создания объекта для передачи в localstorage
  */
 function addBasket(elemId) {
   const LS = localStorage
@@ -73,10 +87,14 @@ function addBasket(elemId) {
       }
     })
     addLocal(LS, productObj)
+    // Получаем данные из хранилища и передаем в корзину
+    const loadLocalStoreg = dataLocal()
+    // Формируем корзину
+    generateBasket(loadLocalStoreg)
   })
 }
 
-// Добавляем данные в хранилище
+// Функция для добавления в localStorage
 /**
  *
  * @param {localStorage} local - локальное хранилище
@@ -90,16 +108,20 @@ function addLocal(local, data) {
     })
     if (checkProduct) {
       localArray.forEach((el) => {
-        el.count += 1
+        if (el.id === data.id) {
+          el.count += 1
+        }
       })
       local.setItem('product', JSON.stringify(localArray))
     } else {
-      localArray.push({ ...data, count: 0 })
+      localArray.push({ ...data, count: 1 })
       local.setItem('product', JSON.stringify(localArray))
     }
   } else {
-    local.setItem('product', JSON.stringify([{ ...data, count: 0 }]))
+    local.setItem('product', JSON.stringify([{ ...data, count: 1 }]))
   }
+  showPriceBasket()
+  showTotalBasketProduct()
 }
 
 // Достаем данные из localstorage
@@ -107,18 +129,30 @@ function dataLocal() {
   return JSON.parse(localStorage.getItem('product'))
 }
 
-// Получаем данные из хранилища и передаем в корзину
-const loadLocalStoreg = dataLocal()
-generateBasket(loadLocalStoreg)
+/**
+ * Функция Выводит общую стоимость товара
+ */
+function showPriceBasket() {
+  // данные из хранилища
+  const data = dataLocal()
+  if (data) {
+    const totalPrice = data.reduce((previous, current) => {
+      return previous + +current.price * current.count
+    }, 0)
+    SELECTORS.total.innerHTML = `Total: ${totalPrice}$`
+  }
+}
 
-// Выводим общую стоимость товара
-const totalPrice = loadLocalStoreg.reduce((previous, current) => {
-  return previous + +current.price
-}, 0)
-SELECTORS.total.innerHTML = `Total: ${totalPrice}$`
-
-// Выводим количество товаров в корзине
-const totalInfo = loadLocalStoreg.reduce((previous, current) => {
-  return previous + +current.count
-}, 0)
-SELECTORS.basketInfo.innerHTML = `${totalInfo}`
+/**
+ * Функция выводит  выводит общее количество товаров в корзине
+ */
+function showTotalBasketProduct() {
+  // данные из хранилища
+  const data = dataLocal()
+  if (data) {
+    const totalInfo = data.reduce((previous, current) => {
+      return previous + +current.count
+    }, 0)
+    SELECTORS.basketInfo.innerHTML = `${totalInfo}`
+  }
+}
