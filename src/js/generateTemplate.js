@@ -48,3 +48,29 @@ export function generateTemplate(data) {
 
   SELECTORS?.productList?.insertAdjacentHTML('beforeend', html)
 }
+
+export function generateBasket(data) {
+  let html = ''
+
+  if (data && Array.isArray(data)) {
+    data.forEach((product) => {
+      html += `
+              <div class="main-card flex" data-id="${product?.id}">
+                <div class="card-image">
+                    <img src="${product?.imgSrc}" alt="image">
+                </div>
+                <h3 class="card-name">${product?.name}</h3>
+    
+                <p class="card-category">${product?.category}</p>
+    
+                <p class="card-price">${product?.price}</p>
+                <p class="card-count">Count ${product?.count}</p>
+              </div>
+            `
+    })
+  }
+  // Очистка исходного содержимого
+  SELECTORS.basket.innerHTML = ''
+
+  SELECTORS?.basket?.insertAdjacentHTML('beforeend', html)
+}
